@@ -24,17 +24,19 @@
 
 import numpy as np
 import pandas as pd
-from collections import Iterable
+from collections.abc import Iterable
 from scipy.stats import *
 
-def columnFor (df: pd.DataFrame, names: list):
+
+def columnFor(df: pd.DataFrame, names: list):
     """
     Find named column from a list of alternatives
     """
     for id in names:
         if id in df.columns:
             return df[id]
-    raise Exception (f"could not find {names[0]} column in supplied dataframe")
+    raise Exception(f"could not find {names[0]} column in supplied dataframe")
+
 
 def ncols(series):
     """
@@ -47,6 +49,7 @@ def ncols(series):
     else:
         return series.shape[1]
 
+
 def nrows(series):
     """
     Determine # of rows
@@ -57,7 +60,7 @@ def nrows(series):
         return series.shape[0]
 
 
-def breaks(series, mingap = 12*3600):
+def breaks(series, mingap=12*3600):
     """
     Get the row indices where there are at least k-second gaps
 
@@ -66,8 +69,9 @@ def breaks(series, mingap = 12*3600):
     """
     dt = np.diff(series.index.astype(np.int64)/1e9)
 
-    isbreak = np.concatenate ((np.array([True]), dt[:-1] >= mingap, np.array([True])))
-    indices, = np.where (isbreak)
+    isbreak = np.concatenate(
+        (np.array([True]), dt[:-1] >= mingap, np.array([True])))
+    indices, = np.where(isbreak)
     return indices
 
 
@@ -80,7 +84,7 @@ def toColumnVector(vec) -> np.array:
 
     shape = vec.shape
     if len(shape) == 1:
-        return np.reshape (vec, (shape[0], 1))
+        return np.reshape(vec, (shape[0], 1))
     elif shape[0] == 1:
         return np.transpose(vec)
     else:
@@ -121,9 +125,10 @@ def summary(series):
     """
     Descriptive statistics for series
     """
-    idx = ['mean', 'std', 'skew', 'kurtosis', 'min', '25%', 'median', '75%', 'max']
+    idx = ['mean', 'std', 'skew', 'kurtosis',
+           'min', '25%', 'median', '75%', 'max']
 
-    def statistics (v):
+    def statistics(v):
         v = v[~np.isnan(v)]
         return np.array([
             np.mean(v), np.std(v), skew(v), kurtosis(v),
@@ -143,10 +148,7 @@ def summary(series):
         if data is None:
             data = snew
         else:
-            data = pd.merge (data, snew, left_index=True, right_index=True, how='outer')
+            data = pd.merge(data, snew, left_index=True,
+                            right_index=True, how='outer')
 
     return data
-
-
-
-
