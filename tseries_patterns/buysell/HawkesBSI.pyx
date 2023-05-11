@@ -56,8 +56,8 @@ cdef class HawkesBSI:
             times = columnFor(df, ['stamp','time','Date','date','datetime'])
 
         prices = columnFor(df, ['close','Close','price'])
-        buyvol = columnFor(df, ['buyvolume', 'BuyVolume'])
-        sellvol = columnFor(df, ['sellvolume', 'SellVolume'])
+        buyvol = columnFor(df, ['buyvolume', 'BuyVolume', 'buy_volume'])
+        sellvol = columnFor(df, ['sellvolume', 'SellVolume', 'sell_volume'])
 
         dv = buyvol - sellvol
         alpha = np.exp (-self._kappa)

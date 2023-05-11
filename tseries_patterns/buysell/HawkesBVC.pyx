@@ -69,8 +69,8 @@ cdef class HawkesBVC:
         if "volume" in df.columns or "Volume" in df.columns:
             volume = columnFor(df, ['volume', 'Volume'])
         else:
-            buyvol = columnFor(df, ['buyvolume', 'BuyVolume'])
-            sellvol = columnFor(df, ['sellvolume', 'SellVolume'])
+            buyvol = columnFor(df, ['buyvolume', 'BuyVolume', 'buy_volume'])
+            sellvol = columnFor(df, ['sellvolume', 'SellVolume', 'sell_volume'])
             volume = buyvol + sellvol
 
         sigma = r.rolling(self._window).std().fillna(0.0)
